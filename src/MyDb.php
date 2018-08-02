@@ -3,7 +3,6 @@
 namespace cvweiss\sde;
 
 use \PDO;
-use \Project\Base\Config;
 
 /**
 	Stolen from cvweiss/zlibrary :)
@@ -23,11 +22,18 @@ class MyDb
 	 */
 	protected static function getPDO()
 	{
-		$dbUser = Config::get('mysql_user', 'user');
-		$dbPass = Config::get('mysql_password', 'password');
-		$dbHost = Config::get('mysql_host', '127.0.0.1');
-		$dbName = Config::get('mysql_database', 'database');
-		$dbSock = Config::get('mysql_socket');
+		$configJson = json_decode((file_get_contents(dirname(__DIR__) . "/config.json")), true);
+
+		$dbUser = $configJson['mysql_user'];
+		$dbPass = $configJson['mysql_password'];
+		$dbHost = $configJson['baseHref'];
+		$dbName = $configJson['mysql_database'];
+		
+		if (isset($configJson['dbSock'])) 
+			$dbSock = $configJson['dbSock'];
+		else
+			$dbSock = NULL;
+		
 
 		if($dbSock)
 			$dsn = "mysql:dbname=$dbName;unix_socket=$dbSock";

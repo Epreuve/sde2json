@@ -16,7 +16,9 @@ then
     tar xf mysql-latest.tar
 
     cd sde-*
-    mysql -usde -psde sde < sde-*.sql
+    # change this to your user and password
+    # mysql -umydbuser -pmydbpassword dbName < sde-*.sql
+    mysql -u -p sde < sde-*.sql
 
     cd $DIR/../src
     php publish.php

@@ -4,11 +4,10 @@ namespace cvweiss\sde;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Project\Base\Config;
-
+$configJson = json_decode((file_get_contents(dirname(__DIR__) . "/config.json")), true);
 $tables = MyDb::query("show tables", [], 0, false);
-$exportDir = Config::get('projectDir') . '/public/';
-$baseHref = Config::get('baseHref', '/');
+$exportDir = dirname(__DIR__) . '/public/';
+$baseHref = $configJson['baseHref'];
 $t = [];
 
 foreach ($tables as $table) {
@@ -29,7 +28,7 @@ putContents($t, $exportDir . 'tables.json');
 $now = date('Y/m/d H:i');
 file_put_contents("$exportDir/index.html", "<html><body>A simple SDE conversion into json files. To see a list of converted tables, see <a href='/tables.json'>tables.json</a><br/>To access a table, visit table-name.json, for example, <a href='/invFlags.json'>invFlags.json</a><br/>Many thanks to FuzzySteve for the SDE conversion into MySQL<br/>Last Updated: $now<br/><a href='/installed.md5'>Current MD5</a><br/><br/><small><a href='https://github.com/cvweiss/sde2json/' target='_blank'>Github</a></body></html>");
 
-echo "Complete, now go clear your Cloudflare cache\n";
+echo "Conversion Complete!\n";
 
 function putContents($array, $file) {
 	$array = utf8ize($array);

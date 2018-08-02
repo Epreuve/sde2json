@@ -1,6 +1,6 @@
 {
-	"mysql_user": "sde",
-	"mysql_password": "sde",
-	"mysql_database": "sde",
-	"baseHref": "http://sde.zzeve.com/"
+	"mysql_user": "user",
+	"mysql_password": "password",
+	"mysql_database": "SDE",
+	"baseHref": "127.0.0.1"
 }
